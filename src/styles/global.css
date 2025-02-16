@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+    --font-display: "Satoshi", "sans-serif";
+    --breakpoint-3xl: 1920px;
+    --color-accent-color: #fbcd2b;
+    --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+    --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}

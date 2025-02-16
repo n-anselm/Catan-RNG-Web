@@ -1,0 +1,53 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Catan RNG</title>
+  </head>
+  <body class="bg-[url('catan.jpg')] bg-no-repeat bg-full-size">
+    <div class="w-full h-screen">
+      <div class="flex flex-col h-screen">
+        <div class="flex-4"></div>
+        <div class="mx-auto flex-3">
+          <h1 id="randomNumber" class="text-9xl text-neutral-800">8</h1>
+        </div>
+        <div class="flex-2 mx-auto">
+          <button
+            class="btn bg-accent-color text-neutral-800 text-2xl rounded-xl px-8 py-8 border-none"
+            onclick="generateRandomNumber()"
+          >
+            GENERATE
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <style>
+    .bg-full-size {
+      background-size: 100vw 100vh;
+    }
+  </style>
+
+  <script>
+    function generateRandomNumber() {
+      // Generate random number
+      const randomNum = Math.floor(Math.random() * 12) + 1;
+
+      // Set the generated number to the h1 element
+      const randomNumberElement = document.getElementById("randomNumber");
+      if (randomNumberElement) {
+        randomNumberElement.innerText = randomNum.toString();
+      }
+    }
+
+    window.generateRandomNumber = generateRandomNumber;
+  </script>
+</html>
