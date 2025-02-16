@@ -11,7 +11,8 @@ import "../styles/global.css";
     <meta name="generator" content={Astro.generator} />
     <title>Catan RNG</title>
   </head>
-  <body class="bg-[url('/catan.jpg')] bg-no-repeat bg-full-size">
+  <!-- bg-[url('/catan.jpg')] -->
+  <body class=" bg-no-repeat bg-full-size">
     <div class="w-full h-screen">
       <div class="flex flex-col h-screen">
         <div class="flex-4"></div>
@@ -33,6 +34,7 @@ import "../styles/global.css";
   <style>
     .bg-full-size {
       background-size: 100vw 100vh;
+      background-image: url('catan.jpg');
     }
   </style>
 
