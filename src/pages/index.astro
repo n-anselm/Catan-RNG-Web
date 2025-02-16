@@ -12,7 +12,7 @@ import "../styles/global.css";
     <title>Catan RNG</title>
   </head>
   <!-- bg-[url('/catan.jpg')] -->
-  <body class=" bg-no-repeat bg-full-size">
+  <body class="bg-no-repeat bg-full-size">
     <div class="w-full h-screen">
       <div class="flex flex-col h-screen">
         <div class="flex-4"></div>
@@ -34,22 +34,17 @@ import "../styles/global.css";
   <style>
     .bg-full-size {
       background-size: 100vw 100vh;
-      background-image: url('/catan.jpg');
+      background-image: url("/catan.jpg");
     }
   </style>
 
   <script>
-    function generateRandomNumber() {
-      // Generate random number
-      const randomNum = Math.floor(Math.random() * 12) + 1;
+    import { generateRandomNumber } from "../generateNumber.ts";
 
-      // Set the generated number to the h1 element
-      const randomNumberElement = document.getElementById("randomNumber");
-      if (randomNumberElement) {
-        randomNumberElement.innerText = randomNum.toString();
-      }
-    }
-
-    window.generateRandomNumber = generateRandomNumber;
+    document.addEventListener("DOMContentLoaded", () => {
+      document
+        .getElementById("generateBtn")
+        ?.addEventListener("click", generateRandomNumber);
+    });
   </script>
 </html>
