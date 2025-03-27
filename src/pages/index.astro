@@ -20,12 +20,20 @@ import Analytics from "@vercel/analytics/astro";
         <div class="mx-auto flex-3">
           <h1 id="randomNumber" class="text-9xl text-neutral-800">0</h1>
         </div>
-        <div class="flex-2 mx-auto">
+        <div class="flex-1 mx-auto">
           <button
             class="btn bg-accent-color text-neutral-800 text-2xl rounded-xl px-8 py-8 border-none"
             onclick="generateRandomNumber()"
           >
             GENERATE
+          </button>
+        </div>
+        <div class="flex-1 mx-auto">
+          <button
+            id="showHistoryButton"
+            class="btn bg-accent-color text-neutral-800 text-lg rounded-xl px-4 py-4 border-none"
+            onclick="showHistory()">
+            HISTORY
           </button>
         </div>
       </div>

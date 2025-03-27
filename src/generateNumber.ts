@@ -57,12 +57,14 @@ function vibrate() {
 declare global {
     interface Window {
         generateRandomNumber: () => void;
+        showHistory: () => void;
     }
 }
 
 window.generateRandomNumber = generateRandomNumber;
+window.showHistory = showHistory;
 
-// Generate a weighted random number with a cumulative distribution function
+// Generate a weighted random number using a cumulative distribution function
 function weightedRandomNum(): number {
     const rand = Math.random();
 
@@ -87,4 +89,12 @@ function smoothRandom(num: number): number {
     let smoothedRandom = Math.round(num * smoothingFactor + 7 * (1 - smoothingFactor));
     // Round to nearest int
     return Math.round(smoothedRandom);
+}
+
+function showHistory() {
+    if (historyList.length === 0) {
+        alert("No history yet.");
+    } else {
+        alert("History:\n" + historyList.join(", "));
+    }
 }
