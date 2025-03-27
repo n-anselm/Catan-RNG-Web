@@ -14,16 +14,16 @@ export function generateRandomNumber() {
 
     let randomNum = weightedRandomNum();
     console.log("Random: " + randomNum); // DEBUG
-    randomNum = smoothRandom(randomNum);
-    console.log("Smooth random: " + randomNum); // DEBUG
+    // randomNum = smoothRandom(randomNum);
+    // console.log("Smooth random: " + randomNum); // DEBUG
 
     // Ensure that the new number is not the same as the previous one
     while (historyList.length > 0 && randomNum === historyList[historyList.length - 1]) {
         console.warn("Duplicate detected, regenerating...");
         randomNum = weightedRandomNum();
         console.log("Random: " + randomNum); // DEBUG
-        randomNum = smoothRandom(randomNum);
-        console.log("Smooth random: " + randomNum); // DEBUG
+        // randomNum = smoothRandom(randomNum);
+        // console.log("Smooth random: " + randomNum); // DEBUG
     }
     
     // Set the generated number to the h1 element
@@ -83,7 +83,7 @@ function weightedRandomNum(): number {
 
 function smoothRandom(num: number): number {
 
-    const smoothingFactor = 0.8;
+    const smoothingFactor = 0.77;
     
     // Move closer to the mean (7 is the midpoint of 2-12)
     let smoothedRandom = Math.round(num * smoothingFactor + 7 * (1 - smoothingFactor));
