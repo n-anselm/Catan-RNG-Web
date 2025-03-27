@@ -13,11 +13,17 @@ export function generateRandomNumber() {
     if (generateButton) generateButton.disabled = true;
 
     let randomNum = weightedRandomNum();
+    console.log("Random: " + randomNum); // DEBUG
+    randomNum = smoothRandom(randomNum);
+    console.log("Smooth random: " + randomNum); // DEBUG
 
     // Ensure that the new number is not the same as the previous one
     while (historyList.length > 0 && randomNum === historyList[historyList.length - 1]) {
         console.warn("Duplicate detected, regenerating...");
         randomNum = weightedRandomNum();
+        console.log("Random: " + randomNum); // DEBUG
+        randomNum = smoothRandom(randomNum);
+        console.log("Smooth random: " + randomNum); // DEBUG
     }
     
     // Set the generated number to the h1 element
@@ -29,7 +35,7 @@ export function generateRandomNumber() {
     // Add the new valid number to the history list
     historyList.push(randomNum);
 
-    console.log("History list: ", historyList); // DEBUG
+    // console.log("History list: ", historyList); // DEBUG
 
     // Re-enable the button after a short delay
     setTimeout(() => {
@@ -41,9 +47,10 @@ export function generateRandomNumber() {
 function vibrate() {
     if (navigator.vibrate) {
         navigator.vibrate(120); // Vibrate for 200ms
-    } else {
-        console.warn("Vibration API not supported.");
     }
+    // else {
+    //     console.warn("Vibration API not supported.");
+    // }
 }
 
 // Explicitly attach to the global window object
@@ -70,4 +77,14 @@ function weightedRandomNum(): number {
     if (rand < 33 / 36) return 10;     // 8.3%  probability
     if (rand < 35 / 36) return 11;     // 5.6%  probability
     return 12;                         // 2.8%  probability
+}
+
+function smoothRandom(num: number): number {
+
+    const smoothingFactor = 0.8;
+    
+    // Move closer to the mean (7 is the midpoint of 2-12)
+    let smoothedRandom = Math.round(num * smoothingFactor + 7 * (1 - smoothingFactor));
+    // Round to nearest int
+    return Math.round(smoothedRandom);
 }
