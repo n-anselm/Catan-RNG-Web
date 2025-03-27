@@ -2,6 +2,10 @@ const historyList: number[] = []; // Initialize history list
 let isGenerating = false; // Flag to prevent re-entry
 
 export function generateRandomNumber() {
+
+    // Trigger device vibration if supported
+    vibrate();
+
     if (isGenerating) return; // Prevent multiple entries
     isGenerating = true;
 
@@ -32,6 +36,14 @@ export function generateRandomNumber() {
         if (generateButton) generateButton.disabled = false;
         isGenerating = false;
     }, 100);
+}
+
+function vibrate() {
+    if (navigator.vibrate) {
+        navigator.vibrate(120); // Vibrate for 200ms
+    } else {
+        console.warn("Vibration API not supported.");
+    }
 }
 
 // Explicitly attach to the global window object
