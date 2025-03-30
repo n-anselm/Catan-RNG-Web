@@ -1,9 +1,11 @@
 const historyList: number[] = []; // Initialize history list
 let isGenerating = false; // Flag to prevent re-entry
 
+let numArray = returnnumArray(); // Setup new array with number probabilities
+// console.log("Initial array: " + numArray); // DEBUG
+
 export function generateRandomNumber() {
 
-    // Trigger device vibration if supported
     vibrate();
 
     if (isGenerating) return; // Prevent multiple entries
@@ -12,19 +14,28 @@ export function generateRandomNumber() {
     const generateButton = document.getElementById("generateButton") as HTMLButtonElement | null;
     if (generateButton) generateButton.disabled = true;
 
-    let randomNum = weightedRandomNum();
+    let randomNum = 0
+
+    // Get random number
+    if (numArray.length > 0) {
+        randomNum = getRandomNumberFromArray(numArray);
+    } else {
+        // Reset the array if it's empty
+        numArray = returnnumArray();
+        randomNum = getRandomNumberFromArray(numArray);
+    }
+    
+
     console.log("Random: " + randomNum); // DEBUG
-    // randomNum = smoothRandom(randomNum);
-    // console.log("Smooth random: " + randomNum); // DEBUG
 
     // Ensure that the new number is not the same as the previous one
-    while (historyList.length > 0 && randomNum === historyList[historyList.length - 1]) {
-        console.warn("Duplicate detected, regenerating...");
-        randomNum = weightedRandomNum();
-        console.log("Random: " + randomNum); // DEBUG
-        // randomNum = smoothRandom(randomNum);
-        // console.log("Smooth random: " + randomNum); // DEBUG
-    }
+    // while (historyList.length > 0 && randomNum === historyList[historyList.length - 1]) {
+    //     console.warn("Duplicate detected, regenerating...");
+    //     randomNum = weightedRandomNum();
+    //     console.log("Random: " + randomNum); // DEBUG
+    //     // randomNum = smoothRandom(randomNum);
+    //     // console.log("Smooth random: " + randomNum); // DEBUG
+    // }
     
     // Set the generated number to the h1 element
     const randomNumberElement = document.getElementById("randomNumber");
@@ -44,6 +55,7 @@ export function generateRandomNumber() {
     }, 100);
 }
 
+// Trigger device vibration if supported
 function vibrate() {
     if (navigator.vibrate) {
         navigator.vibrate(120); // Vibrate for 200ms
@@ -81,20 +93,32 @@ function weightedRandomNum(): number {
     return 12;                         // 2.8%  probability
 }
 
-function smoothRandom(num: number): number {
-
-    const smoothingFactor = 0.77;
-    
-    // Move closer to the mean (7 is the midpoint of 2-12)
-    let smoothedRandom = Math.round(num * smoothingFactor + 7 * (1 - smoothingFactor));
-    // Round to nearest int
-    return Math.round(smoothedRandom);
-}
-
 function showHistory() {
     if (historyList.length === 0) {
         alert("No history yet.");
     } else {
         alert("History:\n" + historyList.join(", "));
+    }
+}
+
+// Return an array of number probabilities for dice (range: 2-12)
+function returnnumArray() {
+    return [2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 11, 11, 12];
+}
+
+// Get random item from array
+function getRandomNumberFromArray(array: number[]): number {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const number = array[randomIndex];
+    removeItemByIndex(array, randomIndex); // Remove the selected number
+    return number;
+}
+
+// Remove item from array by index
+function removeItemByIndex(array: number[], index: number): void {
+    if (index >= 0 && index < array.length) {
+        array.splice(index, 1);
+    } else {
+        console.warn("Invalid index");
     }
 }
