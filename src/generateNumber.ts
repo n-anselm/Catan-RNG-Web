@@ -2,7 +2,7 @@ const historyList: number[] = []; // Initialize history list
 let isGenerating = false; // Flag to prevent re-entry
 
 let numArray = returnnumArray(); // Setup new array with number probabilities
-// console.log("Initial array: " + numArray); // DEBUG
+console.log("Initial array: " + numArray); // DEBUG
 
 export function generateRandomNumber() {
 
@@ -103,14 +103,27 @@ function showHistory() {
 
 // Return an array of number probabilities for dice (range: 2-12)
 function returnnumArray() {
-    return [2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 11, 11, 12];
+    let array = [2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 11, 11, 12];
+    array = shuffleArray(array);
+    return array;
 }
 
 // Get random item from array
 function getRandomNumberFromArray(array: number[]): number {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    const number = array[randomIndex];
-    removeItemByIndex(array, randomIndex); // Remove the selected number
+    
+    let randomIndex = Math.floor(Math.random() * array.length);
+    let number = array[randomIndex];
+
+    // Avoid successive same numbers
+    let loops = 0
+    while (historyList.length > 0 && number === historyList[historyList.length - 1] && loops < 3) {
+        randomIndex = Math.floor(Math.random() * array.length);
+        number = array[randomIndex];
+        loops += 1;
+        // console.log("Same number: " + loops); // DEBUG
+    }
+
+    removeItemByIndex(array, randomIndex); // Remove the selected number from the array
     return number;
 }
 
@@ -121,4 +134,13 @@ function removeItemByIndex(array: number[], index: number): void {
     } else {
         console.warn("Invalid index");
     }
+}
+
+function shuffleArray(array: number[]): number[] {
+    let shuffled = [...array]; // Copy to avoid modifying the original
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Random index
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap
+    }
+    return shuffled;
 }
